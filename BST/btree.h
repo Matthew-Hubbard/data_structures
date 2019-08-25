@@ -1,9 +1,12 @@
 #include <iostream>
 #include <queue>
+#include <unordered_map>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
-#define MAX_NODES 20 
+#define MAX_NODES 8
+#define MIN_NODES 3
 #define MAX_DATA 99
 #define MIN_DATA 1
 
@@ -42,4 +45,5 @@ class BST
     void pre_order(node * root) const;
     void post_order(node * root) const;
     void level_order(node * root, std::queue <node *> & q) const;
+    int calc_empties(std::unordered_map<int, int> & empties_map, int cur_level) const;
 };
