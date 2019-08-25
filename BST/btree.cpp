@@ -22,8 +22,12 @@ void BST::insert(node *& root, int to_add)
 
 void BST::build()
 {
+//  insert(10);
+//  insert(80);
+//  insert(50);
+//  insert(60);
   srand(time(0));
-  int num_nodes = rand() % MAX_NODES + MIN_NODES;
+  int num_nodes = (rand() % ((MAX_NODES + 1) - MIN_NODES)) + MIN_NODES;
   int add = 0;
   for(int i = 0; i < num_nodes; ++i)
   {
@@ -94,6 +98,22 @@ void BST::post_order(node * root) const
   return;
 }
 
+/*
+int BST::empties()
+{
+  unordered_map <int, int> empties_map;
+  empties_map[0] = 0;
+  return empties(root, empties_map);
+}
+
+int BST::empties(node * root, unordered_map<int, int> & empties_map)
+{
+  if(!root)
+    return 0;
+  return 1;
+}
+*/
+
 void BST::level_order() const
 {
   queue <node *> q; 
@@ -116,21 +136,18 @@ void BST::level_order(node * root, queue <node *> & q) const
   {
     ++num_nodes; //count the node we're on
     cout << "level " << cur_level  << ": " << current->data << "\n";
+    //cout << current->data << " ";
 
     //calculate max number of nodes posible at current level
     max_nodes = pow(2, cur_level + 1) - 1;
 
-    //update total empties found...
-    total_empty = calc_empties(empties_map, cur_level);
-    cout << "num_nodes: " << num_nodes << ", total_empty: " << total_empty << ", max_nodes: " << max_nodes << endl << endl;
-
-    if(total_empty + num_nodes == max_nodes)
-      ++cur_level;
-
-  
     //if no entry for number of empties on next level, set to zero.
     if(empties_map.count(cur_level + 1) == 0)
       empties_map[cur_level + 1] = 0;
+
+    //update total empties found...
+    total_empty = calc_empties(empties_map, cur_level);
+    cout << "num_nodes: " << num_nodes << ", total_empty: " << total_empty << ", max_nodes: " << max_nodes << endl << endl;
 
     if(current->left)
       q.push(current->left);
@@ -140,6 +157,12 @@ void BST::level_order(node * root, queue <node *> & q) const
       q.push(current->right);
     else
         ++empties_map[cur_level + 1];
+
+     if(total_empty + num_nodes >= max_nodes)
+     {
+      ++cur_level;
+      //cout << endl;
+     }
   
     current = q.front(); //nullptr when empty
     q.pop();
@@ -148,11 +171,11 @@ void BST::level_order(node * root, queue <node *> & q) const
 
 int BST::calc_empties(unordered_map<int, int> & empties_map, int cur_level) const
 {
-  cout << "calc_empties: cur_level: " << cur_level << endl;
+//  cout << "calc_empties: cur_level: " << cur_level << endl;
   int total = 0;
   for(int i = 0; i <= cur_level; ++i)
   {
-    total += pow(2, cur_level - i) * empties_map[i]; //every level between cur_level and i has twice as many empty slots per level
+    total += (pow(2, cur_level - i + 1) - 1) * empties_map[i]; //every level between cur_level and i has twice as many empty slots per level
   }
   return total;
 }

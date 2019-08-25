@@ -6,7 +6,7 @@
 #include <math.h>
 
 #define MAX_NODES 8
-#define MIN_NODES 3
+#define MIN_NODES 4
 #define MAX_DATA 99
 #define MIN_DATA 1
 
@@ -32,6 +32,8 @@ class BST
     void post_order() const;
     void level_order() const;
 
+ //   int empties();
+
   protected:
 
   private:
@@ -46,4 +48,6 @@ class BST
     void post_order(node * root) const;
     void level_order(node * root, std::queue <node *> & q) const;
     int calc_empties(std::unordered_map<int, int> & empties_map, int cur_level) const;
+
+//    int empties(node * root, std::unordered_map<int, int> & empties_map);
 };
