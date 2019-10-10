@@ -22,11 +22,13 @@ class lll
     void display_iterative();
     int remove(int to_remove);
     int remove_all();
+    int insert_ordered(int data);
     int sort();
   protected:
     void display(node * head);
     int remove(int to_remove, node *& head);
     int remove_all(node *& head);
+    int insert_ordered(node *& head, int data);
     int merge_sort(node *& head);
   private:
     node * head;

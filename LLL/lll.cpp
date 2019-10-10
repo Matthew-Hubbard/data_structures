@@ -16,6 +16,29 @@ int lll::add_at_front(int data)
   return 0;
 }
 
+int lll::insert_ordered(int data)
+{
+  return insert_ordered(head, data);
+}
+
+int lll::insert_ordered(node *& head, int data)
+{
+  if(!head)
+  {
+    head = new node(data);
+    head->next = nullptr;
+    return 1;
+  }
+  if(data <= head->data)
+  {
+    node * temp = head;
+    head = new node(data);
+    head->next = temp;
+    return 1;
+  }
+  return insert_ordered(head->next, data);
+}
+
 int lll::build(int num_to_add)
 {
   if(num_to_add < 0)
